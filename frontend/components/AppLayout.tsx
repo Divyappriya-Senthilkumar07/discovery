@@ -1,0 +1,28 @@
+'use client';
+
+import React from 'react';
+import { usePathname } from 'next/navigation';
+import { Sidebar } from './Sidebar';
+import { ProtectedRoute } from './ProtectedRoute';
+
+export function AppLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+
+  if (pathname === '/login') {
+    return <>{children}</>;
+  }
+
+  return (
+    <ProtectedRoute>
+      <div className="flex min-h-screen bg-[#090d16]">
+        <Sidebar />
+        <main className="flex-1 overflow-x-hidden min-h-screen">
+          {children}
+        </main>
+      </div>
+    </ProtectedRoute>
+  );
+}
+
+export default AppLayout;
+
