@@ -50,7 +50,7 @@ async def seed_demo_data():
             key_executives=["Laurent le Moal", "Anirban Mukherjee"],
             industry_terms=["fintech", "BNPL", "digital payments", "payment gateway", "merchant acquiring", "cross-border checkout"],
             manually_edited_fields=[],
-            created_at=datetime.now(timezone.utc)
+            generated_at=datetime.now(timezone.utc)
         )
 
         reliance = Client(
@@ -62,7 +62,7 @@ async def seed_demo_data():
             key_executives=["Mukesh Ambani", "Isha Ambani", "Akash Ambani"],
             industry_terms=["telecom", "5G", "petrochemicals", "retail", "refinery", "clean energy"],
             manually_edited_fields=[],
-            created_at=datetime.now(timezone.utc)
+            generated_at=datetime.now(timezone.utc)
         )
 
         razorpay = Client(
@@ -74,7 +74,7 @@ async def seed_demo_data():
             key_executives=["Harshil Mathur", "Shashank Kumar"],
             industry_terms=["payment gateway", "neo-banking", "payroll", "SME lending", "fintech unicorn"],
             manually_edited_fields=[],
-            created_at=datetime.now(timezone.utc)
+            generated_at=datetime.now(timezone.utc)
         )
         db.add_all([payu, reliance, razorpay])
 
@@ -158,51 +158,90 @@ async def seed_demo_data():
         db.add_all(discovered)
 
         # 6. Sample Articles for Live Feed
-        articles = [
-            Article(
-                id="art-demo-1",
-                url="https://economictimes.indiatimes.com/tech/fintech/prosus-payments-arm-expands-merchant-checkout/articleshow/108920.cms",
-                title="Prosus digital payments subsidiary expands merchant checkout credit network",
-                body_text="Prosus digital payments division announces major expansion in instant merchant checkout rails. The firm's subsidiary LazyPay reported 45% annual credit volume growth across tier-1 e-commerce partners. Chief Executive Laurent le Moal indicated plans to scale cross-border payment gateway integrations for emerging digital retail merchants across high-growth markets.",
-                author="Aakriti Sharma",
-                published_at=datetime.now(timezone.utc),
-                domain="economictimes.indiatimes.com",
-                content_hash="hash-et-prosus-payments-demo",
+        from app.models.audit_log import AuditLog
+
+        art1 = Article(
+            id="art-demo-1",
+            url="https://economictimes.indiatimes.com/tech/fintech/prosus-payments-arm-expands-merchant-checkout/articleshow/108920.cms",
+            title="Prosus digital payments subsidiary expands merchant checkout credit network",
+            body_text="Prosus digital payments division announces major expansion in instant merchant checkout rails. The firm's subsidiary LazyPay reported 45% annual credit volume growth across tier-1 e-commerce partners. Chief Executive Laurent le Moal indicated plans to scale cross-border payment gateway integrations for emerging digital retail merchants across high-growth markets.",
+            author="Aakriti Sharma",
+            published_at=datetime.now(timezone.utc),
+            domain="economictimes.indiatimes.com",
+            content_hash="hash-et-prosus-payments-demo",
+            extraction_method="static_html",
+            status="success"
+        )
+        art2 = Article(
+            id="art-demo-2",
+            url="https://reuters.com/business/finance/bnpl-providers-accelerate-digital-credit-underwriting/2026-09-08",
+            title="Leading BNPL provider expands digital lending partnerships with regional e-commerce stores",
+            body_text="Leading BNPL provider LazyPay has deployed automated underwriting models to approve consumer point-of-sale financing at top checkout gateways. The platform integrates seamless installment payment solutions designed for modern mobile-first digital shoppers without requiring traditional card rails.",
+            author="Reuters Business Desk",
+            published_at=datetime.now(timezone.utc),
+            domain="reuters.com",
+            content_hash="hash-reuters-bnpl-demo",
+            extraction_method="static_html",
+            status="success"
+        )
+        art3 = Article(
+            id="art-demo-3",
+            url="https://techwire.org/apple-harvest-breaks-records-kashmir-2026",
+            title="Apple harvest in Kashmir orchards breaks records as farmers celebrate crisp red delicious yield",
+            body_text="Orchard owners across the Kashmir valley are celebrating an unprecedented autumn harvest as cold mountain weather produced exceptionally crisp red delicious apples. Agricultural authorities report local fruit export shipments increased thirty percent over last year's crop yield.",
+            author="Tariq Ahmad",
+            published_at=datetime.now(timezone.utc),
+            domain="techwire.org",
+            content_hash="hash-apple-fruit-demo",
+            extraction_method="static_html",
+            status="success"
+        )
+        db.add_all([art1, art2, art3])
+
+        # 7. Forensic Audit Logs
+        logs = [
+            AuditLog(
+                agent_name="ContextualValidationAgent",
+                article_id="art-demo-1",
                 client_id="client-payu-demo",
-                verdict="relevant",
+                input_summary="Article mentions Prosus, LazyPay, Laurent le Moal expanding merchant checkout",
+                output_summary="Verdict: relevant, Confidence: 0.96",
                 confidence=0.96,
-                explanation="Article directly details PayU's parent company Prosus, subsidiary LazyPay, and CEO Laurent le Moal expanding merchant acquiring rails."
+                explanation="Article directly details PayU's parent company Prosus, subsidiary LazyPay, and CEO Laurent le Moal expanding merchant acquiring rails.",
+                latency_ms=142.5
             ),
-            Article(
-                id="art-demo-2",
-                url="https://reuters.com/business/finance/bnpl-providers-accelerate-digital-credit-underwriting/2026-09-08",
-                title="Leading BNPL provider expands digital lending partnerships with regional e-commerce stores",
-                body_text="Leading BNPL provider LazyPay has deployed automated underwriting models to approve consumer point-of-sale financing at top checkout gateways. The platform integrates seamless installment payment solutions designed for modern mobile-first digital shoppers without requiring traditional card rails.",
-                author="Reuters Business Desk",
-                published_at=datetime.now(timezone.utc),
-                domain="reuters.com",
-                content_hash="hash-reuters-bnpl-demo",
+            AuditLog(
+                agent_name="ContextualValidationAgent",
+                article_id="art-demo-2",
                 client_id="client-payu-demo",
-                verdict="relevant",
+                input_summary="Article discusses LazyPay POS financing and automated underwriting",
+                output_summary="Verdict: relevant, Confidence: 0.91",
                 confidence=0.91,
-                explanation="Coverage highlights PayU's subsidiary LazyPay implementing BNPL payment gateway credit."
+                explanation="Coverage highlights PayU's subsidiary LazyPay implementing BNPL payment gateway credit.",
+                latency_ms=128.0
             ),
-            Article(
-                id="art-demo-3",
-                url="https://techwire.org/apple-harvest-breaks-records-kashmir-2026",
-                title="Apple harvest in Kashmir orchards breaks records as farmers celebrate crisp red delicious yield",
-                body_text="Orchard owners across the Kashmir valley are celebrating an unprecedented autumn harvest as cold mountain weather produced exceptionally crisp red delicious apples. Agricultural authorities report local fruit export shipments increased thirty percent over last year's crop yield.",
-                author="Tariq Ahmad",
-                published_at=datetime.now(timezone.utc),
-                domain="techwire.org",
-                content_hash="hash-apple-fruit-demo",
+            AuditLog(
+                agent_name="ContextualValidationAgent",
+                article_id="art-demo-3",
                 client_id="client-payu-demo",
-                verdict="not_relevant",
+                input_summary="Orchard apple harvest in Kashmir valley",
+                output_summary="Verdict: not_relevant, Confidence: 0.08",
                 confidence=0.08,
-                explanation="Article discusses agricultural apple fruit harvest, possessing zero semantic or corporate relevance to digital payments."
+                explanation="Article discusses agricultural apple fruit harvest, possessing zero semantic or corporate relevance to digital payments.",
+                latency_ms=95.2
+            ),
+            AuditLog(
+                agent_name="RuleEngineAgent",
+                article_id="art-demo-1",
+                client_id="client-payu-demo",
+                input_summary="Evaluate against rule: Tier 1 & 2 Fintech Ingestion Rule",
+                output_summary="Passed: True",
+                confidence=1.0,
+                explanation="Article domain 'economictimes.indiatimes.com' is Tier 1 and content matches mandatory terms ['fintech', 'payments'].",
+                latency_ms=12.4
             )
         ]
-        db.add_all(articles)
+        db.add_all(logs)
 
         await db.commit()
         logger.info("Demo database seed complete! Default analyst and admin ready.")

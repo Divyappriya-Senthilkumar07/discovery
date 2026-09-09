@@ -37,7 +37,7 @@ class BaseAgent(ABC, Generic[InputType, OutputType]):
         and ensures all agent decisions are committed to audit_log.
         """
         start_time = time.perf_counter()
-        input_summary = str(input_data.model_dump())[:500]
+        input_summary = str(input_data.model_dump())[:500] if hasattr(input_data, "model_dump") else str(input_data)[:500]
         
         try:
             output = await self.process(input_data, db=db)
@@ -46,7 +46,18 @@ class BaseAgent(ABC, Generic[InputType, OutputType]):
             # Extract confidence and explanation if present on output schema
             confidence = getattr(output, "confidence", None)
             explanation = getattr(output, "explanation", None)
-            output_summary = str(output.model_dump())[:500]
+            
+            if hasattr(output, "model_dump"):
+                output_summary = str(output.model_dump())[:500]
+            elif isinstance(output, list):
+                dumped = [item.model_dump() if hasattr(item, "model_dump") else item for item in output]
+                output_summary = str(dumped)[:500]
+                if output and hasattr(output[0], "explanation"):
+                    explanation = getattr(output[0], "explanation", None)
+                if output and hasattr(output[0], "confidence"):
+                    confidence = getattr(output[0], "confidence", None)
+            else:
+                output_summary = str(output)[:500]
 
             # Try to infer article_id or client_id from input/output if not provided
             inferred_article_id = article_id or getattr(input_data, "article_id", None) or getattr(output, "article_id", None)
