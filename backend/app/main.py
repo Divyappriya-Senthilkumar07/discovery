@@ -20,11 +20,11 @@ from app.api.benchmark import router as benchmark_router
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     setup_logging()
-    logger.info("Starting Context Engine backend", version=settings.VERSION)
+    logger.info("Starting Discover backend", version=settings.VERSION)
     await init_db()
     await seed_demo_data()
     yield
-    logger.info("Shutting down Context Engine backend")
+    logger.info("Shutting down Discover backend")
 
 
 app = FastAPI(
@@ -59,7 +59,7 @@ app.include_router(benchmark_router, prefix=settings.API_V1_STR)
 async def health():
     return {
         "status": "ok",
-        "service": "context-engine",
+        "service": "discover",
         "version": settings.VERSION,
         "llm_provider": settings.LLM_PROVIDER
     }

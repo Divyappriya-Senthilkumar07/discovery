@@ -24,7 +24,7 @@ SAMPLE_FEEDS = [
 
 async def run_worker_loop(poll_interval_seconds: int = 30):
     setup_logging()
-    logger.info("Starting Context Engine Background Worker Loop", poll_interval=poll_interval_seconds)
+    logger.info("Starting Discover Background Worker Loop", poll_interval=poll_interval_seconds)
     await init_db()
     orchestrator = PipelineOrchestrator()
 

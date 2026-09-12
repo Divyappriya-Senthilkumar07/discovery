@@ -54,6 +54,7 @@ class BenchmarkRunner:
 
         # Context Engine validation
         ce_hits = 0
+        synonym_results = []
         for i, text in enumerate(synonym_corpus):
             out = await validation_agent.process(
                 ValidationInput(
@@ -65,6 +66,14 @@ class BenchmarkRunner:
             )
             if out.verdict in ["relevant", "needs_review"]:
                 ce_hits += 1
+            synonym_results.append({
+                "text": text,
+                "target_client": "PayU (Prosus)",
+                "naive_result": "MISSED (0 keyword hits)",
+                "verdict": out.verdict,
+                "confidence": out.confidence,
+                "explanation": out.explanation
+            })
 
         ce_misses = len(synonym_corpus) - ce_hits
         # Reduction in missed coverage vs naive
@@ -149,8 +158,9 @@ class BenchmarkRunner:
             if is_fp:
                 ce_false_positives += 1
             adversarial_results.append({
-                "text": text[:60] + "...",
+                "text": text,
                 "target_client": client_key,
+                "trap_type": trap_type,
                 "verdict": out.verdict,
                 "confidence": out.confidence,
                 "explanation": out.explanation
@@ -180,32 +190,48 @@ class BenchmarkRunner:
             ce_time_minutes <= 30.0
         )
 
+        manual_hours = round(manual_time_minutes / 60, 2)
+        ce_hours = round(ce_time_minutes / 60, 2)
+        saved_hours_day = round((manual_time_minutes - ce_time_minutes) / 60, 2)
+        annual_saved = round(saved_hours_day * 250)
+
         return BenchmarkResult(
             missed_coverage_reduction_pct=miss_reduction_pct,
             missed_coverage_details={
+                "corpus_size": len(synonym_corpus),
                 "total_synonym_articles": len(synonym_corpus),
+                "naive_keyword_misses": naive_misses,
                 "naive_misses": naive_misses,
                 "context_engine_misses": ce_misses,
+                "captured_coverage_pct": miss_reduction_pct,
                 "recall_lift_pct": miss_reduction_pct,
                 "target_pct": 60.0,
-                "target_met": miss_reduction_pct >= 60.0
+                "target_met": miss_reduction_pct >= 60.0,
+                "synonym_results": synonym_results
             },
             false_positive_reduction_pct=fp_reduction_pct,
             false_positive_details={
+                "test_set_size": len(adversarial_cases),
                 "total_adversarial_cases": len(adversarial_cases),
+                "naive_keyword_false_positives": naive_false_positives,
                 "naive_false_positives": naive_false_positives,
                 "context_engine_false_positives": ce_false_positives,
                 "precision_gain_pct": fp_reduction_pct,
                 "target_pct": 85.0,
                 "target_met": fp_reduction_pct >= 85.0,
-                "sample_adversarial_resolutions": adversarial_results[:4]
+                "adversarial_results": adversarial_results,
+                "sample_adversarial_resolutions": adversarial_results
             },
             analyst_time_saved_pct=time_saved_pct,
             analyst_time_details={
                 "manual_workflow_minutes": manual_time_minutes,
-                "manual_workflow_hours": round(manual_time_minutes / 60, 2),
+                "manual_workflow_hours": manual_hours,
+                "baseline_triage_hours_per_day": manual_hours,
                 "context_engine_minutes": ce_time_minutes,
+                "ce_triage_hours_per_day": ce_hours,
                 "time_saved_minutes": manual_time_minutes - ce_time_minutes,
+                "hours_saved_per_day": saved_hours_day,
+                "annual_hours_saved": annual_saved,
                 "target_max_minutes": 30.0,
                 "target_met": ce_time_minutes <= 30.0
             },

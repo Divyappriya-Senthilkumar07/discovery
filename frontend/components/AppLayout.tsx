@@ -14,7 +14,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <ProtectedRoute>
-      <div className="flex min-h-screen bg-[#090d16]">
+      <div className="flex min-h-screen bg-slate-50 dark:bg-[#090d16] text-slate-900 dark:text-slate-100 transition-colors duration-200">
         <Sidebar />
         <main className="flex-1 overflow-x-hidden min-h-screen">
           {children}

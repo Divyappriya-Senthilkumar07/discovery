@@ -17,15 +17,10 @@ async def seed_demo_data():
     if the database is currently unpopulated.
     """
     async with AsyncSessionLocal() as db:
-        # Check if users exist
-        user_check = await db.execute(select(User))
-        if user_check.scalars().first():
-            logger.info("Database already seeded. Skipping initial demo seed.")
-            return
-
-        logger.info("Seeding Context Engine initial demo accounts, clients, and sources...")
+        logger.info("Verifying and seeding Context Engine initial demo accounts, clients, and sources...")
 
         # 1. Default Users
+        existing_users = set((await db.execute(select(User.email))).scalars().all())
         analyst = User(
             email="analyst@contextengine.ai",
             hashed_password=get_password_hash("analyst123"),
@@ -38,9 +33,24 @@ async def seed_demo_data():
             role="admin",
             is_active=True
         )
-        db.add_all([analyst, admin])
+        analyst_discover = User(
+            email="analyst@discover.ai",
+            hashed_password=get_password_hash("analyst123"),
+            role="analyst",
+            is_active=True
+        )
+        admin_discover = User(
+            email="admin@discover.ai",
+            hashed_password=get_password_hash("admin123"),
+            role="admin",
+            is_active=True
+        )
+        for u in [analyst, admin, analyst_discover, admin_discover]:
+            if u.email not in existing_users:
+                db.add(u)
 
         # 2. Demo Clients
+        existing_client_ids = set((await db.execute(select(Client.id))).scalars().all())
         payu = Client(
             id="client-payu-demo",
             name="PayU",
@@ -76,9 +86,12 @@ async def seed_demo_data():
             manually_edited_fields=[],
             generated_at=datetime.now(timezone.utc)
         )
-        db.add_all([payu, reliance, razorpay])
+        for c in [payu, reliance, razorpay]:
+            if c.id not in existing_client_ids:
+                db.add(c)
 
         # 3. Default Business Rules
+        existing_rules = set((await db.execute(select(Rule.name))).scalars().all())
         rule1 = Rule(
             client_id="client-payu-demo",
             name="Tier 1 & 2 Fintech Ingestion Rule",
@@ -89,9 +102,11 @@ async def seed_demo_data():
             mandatory_terms=["fintech", "payments"],
             excluded_terms=["crypto", "sports", "cricket"]
         )
-        db.add(rule1)
+        if rule1.name not in existing_rules:
+            db.add(rule1)
 
         # 4. Domain Credibility Index
+        existing_domains = set((await db.execute(select(DomainCredibility.domain))).scalars().all())
         cred_sources = [
             DomainCredibility(
                 domain="reuters.com",
@@ -136,9 +151,12 @@ async def seed_demo_data():
                 manually_overridden=False
             )
         ]
-        db.add_all(cred_sources)
+        for cs in cred_sources:
+            if cs.domain not in existing_domains:
+                db.add(cs)
 
         # 5. Discovered Sources Queue
+        existing_discovered = set((await db.execute(select(DiscoveredSource.domain))).scalars().all())
         discovered = [
             DiscoveredSource(
                 domain="fintechnews.sg",
@@ -155,11 +173,12 @@ async def seed_demo_data():
                 status="approved"
             )
         ]
-        db.add_all(discovered)
+        for ds in discovered:
+            if ds.domain not in existing_discovered:
+                db.add(ds)
 
         # 6. Sample Articles for Live Feed
-        from app.models.audit_log import AuditLog
-
+        existing_articles = set((await db.execute(select(Article.id))).scalars().all())
         art1 = Article(
             id="art-demo-1",
             url="https://economictimes.indiatimes.com/tech/fintech/prosus-payments-arm-expands-merchant-checkout/articleshow/108920.cms",
@@ -196,52 +215,57 @@ async def seed_demo_data():
             extraction_method="static_html",
             status="success"
         )
-        db.add_all([art1, art2, art3])
+        for art in [art1, art2, art3]:
+            if art.id not in existing_articles:
+                db.add(art)
 
         # 7. Forensic Audit Logs
-        logs = [
-            AuditLog(
-                agent_name="ContextualValidationAgent",
-                article_id="art-demo-1",
-                client_id="client-payu-demo",
-                input_summary="Article mentions Prosus, LazyPay, Laurent le Moal expanding merchant checkout",
-                output_summary="Verdict: relevant, Confidence: 0.96",
-                confidence=0.96,
-                explanation="Article directly details PayU's parent company Prosus, subsidiary LazyPay, and CEO Laurent le Moal expanding merchant acquiring rails.",
-                latency_ms=142.5
-            ),
-            AuditLog(
-                agent_name="ContextualValidationAgent",
-                article_id="art-demo-2",
-                client_id="client-payu-demo",
-                input_summary="Article discusses LazyPay POS financing and automated underwriting",
-                output_summary="Verdict: relevant, Confidence: 0.91",
-                confidence=0.91,
-                explanation="Coverage highlights PayU's subsidiary LazyPay implementing BNPL payment gateway credit.",
-                latency_ms=128.0
-            ),
-            AuditLog(
-                agent_name="ContextualValidationAgent",
-                article_id="art-demo-3",
-                client_id="client-payu-demo",
-                input_summary="Orchard apple harvest in Kashmir valley",
-                output_summary="Verdict: not_relevant, Confidence: 0.08",
-                confidence=0.08,
-                explanation="Article discusses agricultural apple fruit harvest, possessing zero semantic or corporate relevance to digital payments.",
-                latency_ms=95.2
-            ),
-            AuditLog(
-                agent_name="RuleEngineAgent",
-                article_id="art-demo-1",
-                client_id="client-payu-demo",
-                input_summary="Evaluate against rule: Tier 1 & 2 Fintech Ingestion Rule",
-                output_summary="Passed: True",
-                confidence=1.0,
-                explanation="Article domain 'economictimes.indiatimes.com' is Tier 1 and content matches mandatory terms ['fintech', 'payments'].",
-                latency_ms=12.4
-            )
-        ]
-        db.add_all(logs)
+        from app.models.audit_log import AuditLog
+        existing_log = (await db.execute(select(AuditLog.id))).scalars().first()
+        if not existing_log:
+            logs = [
+                AuditLog(
+                    agent_name="ContextualValidationAgent",
+                    article_id="art-demo-1",
+                    client_id="client-payu-demo",
+                    input_summary="Article mentions Prosus, LazyPay, Laurent le Moal expanding merchant checkout",
+                    output_summary="Verdict: relevant, Confidence: 0.96",
+                    confidence=0.96,
+                    explanation="Article directly details PayU's parent company Prosus, subsidiary LazyPay, and CEO Laurent le Moal expanding merchant acquiring rails.",
+                    latency_ms=142.5
+                ),
+                AuditLog(
+                    agent_name="ContextualValidationAgent",
+                    article_id="art-demo-2",
+                    client_id="client-payu-demo",
+                    input_summary="Article discusses LazyPay POS financing and automated underwriting",
+                    output_summary="Verdict: relevant, Confidence: 0.91",
+                    confidence=0.91,
+                    explanation="Coverage highlights PayU's subsidiary LazyPay implementing BNPL payment gateway credit.",
+                    latency_ms=128.0
+                ),
+                AuditLog(
+                    agent_name="ContextualValidationAgent",
+                    article_id="art-demo-3",
+                    client_id="client-payu-demo",
+                    input_summary="Orchard apple harvest in Kashmir valley",
+                    output_summary="Verdict: not_relevant, Confidence: 0.08",
+                    confidence=0.08,
+                    explanation="Article discusses agricultural apple fruit harvest, possessing zero semantic or corporate relevance to digital payments.",
+                    latency_ms=95.2
+                ),
+                AuditLog(
+                    agent_name="RuleEngineAgent",
+                    article_id="art-demo-1",
+                    client_id="client-payu-demo",
+                    input_summary="Evaluate against rule: Tier 1 & 2 Fintech Ingestion Rule",
+                    output_summary="Passed: True",
+                    confidence=1.0,
+                    explanation="Article domain 'economictimes.indiatimes.com' is Tier 1 and content matches mandatory terms ['fintech', 'payments'].",
+                    latency_ms=12.4
+                )
+            ]
+            db.add_all(logs)
 
         await db.commit()
         logger.info("Demo database seed complete! Default analyst and admin ready.")

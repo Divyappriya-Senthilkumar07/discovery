@@ -3,8 +3,25 @@
 @tailwind utilities;
 
 :root {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --card-bg: rgba(255, 255, 255, 0.9);
+  --card-border: rgba(226, 232, 240, 0.9);
+  --card-hover-bg: rgba(255, 255, 255, 1);
+  --panel-bg: rgba(255, 255, 255, 0.85);
+  --panel-border: rgba(226, 232, 240, 0.85);
+  --panel-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+}
+
+.dark {
   --background: #090d16;
   --foreground: #f8fafc;
+  --card-bg: rgba(30, 41, 59, 0.5);
+  --card-border: rgba(255, 255, 255, 0.06);
+  --card-hover-bg: rgba(30, 41, 59, 0.75);
+  --panel-bg: rgba(15, 23, 42, 0.75);
+  --panel-border: rgba(255, 255, 255, 0.08);
+  --panel-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
 body {
@@ -14,24 +31,24 @@ body {
   min-height: 100vh;
 }
 
-/* Glassmorphic card styling */
+/* Glassmorphic panel styling (automatically adapts to light & dark themes) */
 .glass-panel {
-  background: rgba(15, 23, 42, 0.75);
+  background: var(--panel-bg);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  border: 1px solid var(--panel-border);
+  box-shadow: var(--panel-shadow);
 }
 
 .glass-card {
-  background: rgba(30, 41, 59, 0.5);
+  background: var(--card-bg);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--card-border);
   transition: all 0.2s ease-in-out;
 }
 
 .glass-card:hover {
   border-color: rgba(99, 102, 241, 0.4);
-  background: rgba(30, 41, 59, 0.75);
+  background: var(--card-hover-bg);
 }
 
 /* Custom scrollbars */
@@ -40,12 +57,18 @@ body {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
+  background: rgba(148, 163, 184, 0.15);
+}
+.dark ::-webkit-scrollbar-track {
   background: rgba(15, 23, 42, 0.6);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(148, 163, 184, 0.4);
   border-radius: 3px;
 }
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+}
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(99, 102, 241, 0.4);
+  background: rgba(99, 102, 241, 0.6);
 }

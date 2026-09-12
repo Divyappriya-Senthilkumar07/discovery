@@ -1,11 +1,14 @@
-# Context Engine — Intelligent News Discovery Platform
+# Discover — Intelligent News Discovery Platform
 
 [![Python Tests](https://img.shields.io/badge/Python%20Tests-11%2F11%20Passing-brightgreen.svg)](#automated-test-verification)
 [![Next.js Build](https://img.shields.io/badge/Next.js%2014-Production%20Ready-blue.svg)](#frontend-dashboard)
+[![Theme](https://img.shields.io/badge/Theme-Light%20%26%20Dark%20Mode-violet.svg)](#theme-support)
 [![Accuracy Target](https://img.shields.io/badge/False%20Positives-%3E85%25%20Reduction-success.svg)](#production-validation-benchmarks)
 [![Coverage Target](https://img.shields.io/badge/Missed%20Coverage-%3E60%25%20Reduction-success.svg)](#production-validation-benchmarks)
 
-**Context Engine** is an enterprise-grade, multi-agent media intelligence and news discovery platform designed to replace fragile keyword alerts (Google Alerts, Boolean queries). By employing semantic vector discovery, contextual disambiguation, deterministic business rules, and clustering algorithms, Context Engine surfaces critical coverage while eliminating irrelevant noise.
+**Discover** is an enterprise-grade, multi-agent media intelligence and news discovery platform designed to replace fragile keyword alerts (Google Alerts, Boolean queries). By employing semantic vector discovery, contextual disambiguation, deterministic business rules, and clustering algorithms, Discover surfaces critical coverage while eliminating irrelevant noise.
+
+Featuring full **Light Mode** and **Dark Mode** theming with persistent preference controls across all interfaces.
 
 ---
 
@@ -21,7 +24,7 @@
 
 Quantitative evaluation against naive Boolean keyword search verified across standard adversarial test corpora:
 
-| PRD Success Criteria | Target | Naive Keyword Baseline | Context Engine Result | Verdict |
+| PRD Success Criteria | Target | Naive Keyword Baseline | Discover Result | Verdict |
 | :--- | :--- | :--- | :--- | :--- |
 | **Missed-Coverage Reduction** | $\ge 60\%$ | 0% captured (10/10 missed) | **100.0% captured** (0/10 missed) | **MET** |
 | **False-Positive Reduction** | $\ge 85\%$ | 100% false hits (10/10 traps) | **100.0% filtered** (0/10 traps) | **MET** |
@@ -169,8 +172,15 @@ npm run dev
 ### 3. Default Demo Accounts
 
 Quick-fill demo buttons are provided on the login page:
-- **Analyst Role**: `analyst@contextengine.ai` / `analyst123`
-- **Admin Role**: `admin@contextengine.ai` / `admin123`
+- **Analyst Role**: `analyst@discover.ai` (or `analyst@contextengine.ai`) / `analyst123`
+- **Admin Role**: `admin@discover.ai` (or `admin@contextengine.ai`) / `admin123`
+
+### 4. Light & Dark Mode Theming
+
+Discover includes native dual-theme support across all dashboards:
+- **Instant Toggle**: Switch easily via the sidebar header icon, settings page, or login screen.
+- **Persistent State**: Theme preference stored in `localStorage` under `discover-theme` with automatic OS system preference detection (`prefers-color-scheme`).
+- **Tailwind Tokens**: Built using clean CSS variables and Tailwind `class`-based dark mode (`.dark`), delivering high-contrast readability in Light Mode and sleek glassmorphism in Dark Mode.
 
 ---
 

@@ -271,32 +271,32 @@ export default function RulesPage() {
   return (
     <div className="p-8 max-w-7xl mx-auto space-y-8 pb-16">
       {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800/80 pb-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800/80 pb-6">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <div className="p-2.5 rounded-xl bg-gradient-to-tr from-amber-500/20 to-orange-500/20 border border-amber-500/30 text-amber-400">
+              <div className="p-2.5 rounded-xl bg-gradient-to-tr from-amber-500/20 to-orange-500/20 border border-amber-500/30 text-amber-500 dark:text-amber-400">
                 <Sliders className="w-6 h-6" />
               </div>
-              <h1 className="text-2xl font-bold text-white tracking-tight">Adaptive Business Rules Engine</h1>
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-300 border border-amber-500/20">
+              <h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">Adaptive Business Rules Engine</h1>
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-600 dark:text-amber-300 border border-amber-500/20">
                 Agent 5
               </span>
             </div>
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-slate-600 dark:text-slate-400">
               Translate plain-English editorial directives into verifiable, simulated filter constraints before applying them to discovery.
             </p>
           </div>
 
           {/* Client Selector */}
           <div className="flex items-center gap-3">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Target Client:</span>
+            <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Target Client:</span>
             <select
               value={selectedClientId}
               onChange={e => setSelectedClientId(e.target.value)}
-              className="px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700/80 text-white text-sm font-medium focus:outline-none focus:border-amber-500/50 transition-all shadow-inner"
+              className="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-300 dark:border-slate-700/80 text-slate-900 dark:text-white text-sm font-medium focus:outline-none focus:border-amber-500/50 transition-all shadow-inner"
             >
               {clients.map(c => (
-                <option key={c.id} value={c.id} className="bg-slate-900 text-white">
+                <option key={c.id} value={c.id} className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
                   {c.name} {c.industry ? `(${c.industry})` : ''}
                 </option>
               ))}
@@ -308,8 +308,8 @@ export default function RulesPage() {
         {statusMessage && (
           <div className={`p-4 rounded-xl border flex items-center gap-3 text-sm animate-in fade-in duration-200 ${
             statusMessage.type === 'success' 
-              ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300' 
-              : 'bg-rose-500/10 border-rose-500/30 text-rose-300'
+              ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-700 dark:text-emerald-300' 
+              : 'bg-rose-500/10 border-rose-500/30 text-rose-700 dark:text-rose-300'
           }`}>
             {statusMessage.type === 'success' ? <CheckCircle className="w-5 h-5 flex-shrink-0" /> : <AlertCircle className="w-5 h-5 flex-shrink-0" />}
             <span>{statusMessage.text}</span>
@@ -317,18 +317,18 @@ export default function RulesPage() {
         )}
 
         {/* Top Section: Natural Language Parser Box */}
-        <div className="glass-card p-6 rounded-2xl border border-slate-800 relative overflow-hidden">
+        <div className="glass-card p-6 rounded-2xl border border-slate-200 dark:border-slate-800 relative overflow-hidden">
           <div className="absolute -top-10 -right-10 w-48 h-48 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
           
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-amber-400" />
-              <h2 className="text-base font-semibold text-white">Natural Language Rule Translation</h2>
+              <Sparkles className="w-5 h-5 text-amber-500 dark:text-amber-400" />
+              <h2 className="text-base font-semibold text-slate-900 dark:text-white">Natural Language Rule Translation</h2>
             </div>
             <span className="text-xs text-slate-500 font-mono">Agent5 · RuleEngineAgent.parse_natural_language()</span>
           </div>
 
-          <p className="text-xs text-slate-400 mb-3">
+          <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
             Type any plain-English editorial requirement, geography exclusion, or tier condition. The agent extracts structured parameters automatically.
           </p>
 
@@ -340,7 +340,7 @@ export default function RulesPage() {
                 onChange={e => setNlPrompt(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleParseNl()}
                 placeholder="e.g. Only keep national Tier 1 news from India or Global published in the past 48 hours, exclude sports and cricket"
-                className="w-full px-4 py-3 rounded-xl bg-slate-950/80 border border-slate-700/80 text-white text-sm placeholder-slate-500 focus:outline-none focus:border-amber-500/60 transition-all"
+                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-slate-950/80 border border-slate-300 dark:border-slate-700/80 text-slate-900 dark:text-white text-sm placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-amber-500/60 transition-all shadow-sm"
               />
             </div>
             <button
@@ -354,8 +354,8 @@ export default function RulesPage() {
           </div>
 
           {/* Quick Preset Badges */}
-          <div className="mt-4 pt-4 border-t border-slate-800/60">
-            <div className="text-xs font-semibold text-slate-400 mb-2">Quick Editorial Presets:</div>
+          <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-800/60">
+            <div className="text-xs font-semibold text-slate-600 dark:text-slate-400 mb-2">Quick Editorial Presets:</div>
             <div className="flex flex-wrap gap-2">
               {PRESET_RULES.map((preset, idx) => (
                 <button
@@ -363,9 +363,9 @@ export default function RulesPage() {
                   onClick={() => {
                     setNlPrompt(preset);
                   }}
-                  className="text-left text-xs px-3 py-1.5 rounded-lg bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 hover:border-amber-500/40 text-slate-300 transition-all group flex items-center gap-2"
+                  className="text-left text-xs px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/60 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700/60 hover:border-amber-500/40 text-slate-700 dark:text-slate-300 transition-all group flex items-center gap-2"
                 >
-                  <ChevronRight className="w-3 h-3 text-amber-400 group-hover:translate-x-0.5 transition-transform" />
+                  <ChevronRight className="w-3 h-3 text-amber-500 dark:text-amber-400 group-hover:translate-x-0.5 transition-transform" />
                   <span>{preset}</span>
                 </button>
               ))}
@@ -373,7 +373,7 @@ export default function RulesPage() {
           </div>
 
           {parseMessage && (
-            <div className="mt-4 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-center gap-2">
+            <div className="mt-4 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-700 dark:text-amber-300 text-xs flex items-center gap-2">
               <CheckCircle className="w-4 h-4 flex-shrink-0" />
               <span>{parseMessage}</span>
             </div>
@@ -385,32 +385,32 @@ export default function RulesPage() {
           
           {/* Column 1: Structured Rule Form (7 cols) */}
           <div className="lg:col-span-7 space-y-6">
-            <div className="glass-card p-6 rounded-2xl border border-slate-800 space-y-6">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+            <div className="glass-card p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-6">
+              <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
                 <div className="flex items-center gap-2">
-                  <Filter className="w-5 h-5 text-indigo-400" />
-                  <h3 className="text-base font-semibold text-white">Structured Filter Definition</h3>
+                  <Filter className="w-5 h-5 text-indigo-500 dark:text-indigo-400" />
+                  <h3 className="text-base font-semibold text-slate-900 dark:text-white">Structured Filter Definition</h3>
                 </div>
-                <span className="text-xs text-slate-400">Deterministic Rule Engine</span>
+                <span className="text-xs text-slate-500 dark:text-slate-400">Deterministic Rule Engine</span>
               </div>
 
               {/* Rule Name */}
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">
                   Rule Name / Label
                 </label>
                 <input
                   type="text"
                   value={ruleName}
                   onChange={e => setRuleName(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700/80 text-white text-sm focus:outline-none focus:border-indigo-500"
+                  className="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-slate-950/80 border border-slate-300 dark:border-slate-700/80 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-indigo-500"
                   placeholder="e.g. National Tier 1 Coverage Filter"
                 />
               </div>
 
               {/* Domain Tiers */}
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">
                   Target Domain Tiers
                 </label>
                 <div className="grid grid-cols-3 gap-3">
@@ -427,15 +427,15 @@ export default function RulesPage() {
                         onClick={() => toggleTier(t.id as any)}
                         className={`p-3 rounded-xl border text-left transition-all ${
                           isSelected 
-                            ? 'bg-indigo-600/20 border-indigo-500/50 text-white shadow-md shadow-indigo-500/10' 
-                            : 'bg-slate-900/40 border-slate-800 text-slate-400 hover:border-slate-700'
+                            ? 'bg-indigo-50 dark:bg-indigo-600/20 border-indigo-500/50 text-indigo-900 dark:text-white shadow-md shadow-indigo-500/10' 
+                            : 'bg-slate-50 dark:bg-slate-900/40 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-700'
                         }`}
                       >
                         <div className="flex items-center justify-between mb-1">
-                          <span className="text-xs font-bold uppercase tracking-wider text-indigo-400">{t.label}</span>
-                          <div className={`w-2 h-2 rounded-full ${isSelected ? 'bg-indigo-400 shadow-sm shadow-indigo-400' : 'bg-slate-700'}`} />
+                          <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">{t.label}</span>
+                          <div className={`w-2 h-2 rounded-full ${isSelected ? 'bg-indigo-500 dark:bg-indigo-400 shadow-sm shadow-indigo-400' : 'bg-slate-300 dark:bg-slate-700'}`} />
                         </div>
-                        <div className="text-[11px] text-slate-400 leading-tight">{t.desc}</div>
+                        <div className="text-[11px] text-slate-500 dark:text-slate-400 leading-tight">{t.desc}</div>
                       </button>
                     );
                   })}
@@ -445,11 +445,11 @@ export default function RulesPage() {
               {/* Recency Hours Slider */}
               <div>
                 <div className="flex justify-between items-center mb-2">
-                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-                    <Clock className="w-3.5 h-3.5 text-amber-400" />
+                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 flex items-center gap-1.5">
+                    <Clock className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
                     <span>Recency Lookback Limit</span>
                   </label>
-                  <span className="text-xs font-bold text-amber-400 font-mono">{recencyHours} Hours ({Math.round(recencyHours / 24)} days)</span>
+                  <span className="text-xs font-bold text-amber-600 dark:text-amber-400 font-mono">{recencyHours} Hours ({Math.round(recencyHours / 24)} days)</span>
                 </div>
                 <input
                   type="range"
@@ -458,7 +458,7 @@ export default function RulesPage() {
                   step="6"
                   value={recencyHours}
                   onChange={e => setRecencyHours(Number(e.target.value))}
-                  className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                  className="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500"
                 />
                 <div className="flex justify-between text-[10px] text-slate-500 mt-1 font-mono">
                   <span>6h (Breaking)</span>
@@ -470,8 +470,8 @@ export default function RulesPage() {
 
               {/* Geographies */}
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2 flex items-center gap-1.5">
-                  <Globe className="w-3.5 h-3.5 text-cyan-400" />
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2 flex items-center gap-1.5">
+                  <Globe className="w-3.5 h-3.5 text-cyan-500 dark:text-cyan-400" />
                   <span>Geographic Targets</span>
                 </label>
                 <div className="flex gap-2 mb-2">
@@ -487,7 +487,7 @@ export default function RulesPage() {
                       }
                     }}
                     placeholder="Add geography (e.g. India, US, Europe)..."
-                    className="flex-1 px-3 py-2 rounded-xl bg-slate-950/80 border border-slate-700/80 text-white text-xs focus:outline-none focus:border-cyan-500"
+                    className="flex-1 px-3 py-2 rounded-xl bg-white dark:bg-slate-950/80 border border-slate-300 dark:border-slate-700/80 text-slate-900 dark:text-white text-xs focus:outline-none focus:border-cyan-500"
                   />
                   <button
                     type="button"
@@ -495,16 +495,16 @@ export default function RulesPage() {
                       addTag(geographyInput, geographies, setGeographies);
                       setGeographyInput('');
                     }}
-                    className="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-medium"
+                    className="px-3 py-2 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-white text-xs font-medium"
                   >
                     Add
                   </button>
                 </div>
                 <div className="flex flex-wrap gap-1.5">
                   {geographies.map(geo => (
-                    <span key={geo} className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs">
+                    <span key={geo} className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-700 dark:text-cyan-300 text-xs">
                       {geo}
-                      <button onClick={() => removeTag(geo, geographies, setGeographies)} className="hover:text-cyan-100">×</button>
+                      <button onClick={() => removeTag(geo, geographies, setGeographies)} className="hover:text-cyan-900 dark:hover:text-cyan-100">×</button>
                     </span>
                   ))}
                   {geographies.length === 0 && <span className="text-xs text-slate-500 italic">No geographic limits (global)</span>}
@@ -513,8 +513,8 @@ export default function RulesPage() {
 
               {/* Mandatory Terms */}
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2 flex items-center gap-1.5">
-                  <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2 flex items-center gap-1.5">
+                  <CheckCircle className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
                   <span>Mandatory Inclusions (Article Must Contain At Least One)</span>
                 </label>
                 <div className="flex gap-2 mb-2">
@@ -530,7 +530,7 @@ export default function RulesPage() {
                       }
                     }}
                     placeholder="Add mandatory term..."
-                    className="flex-1 px-3 py-2 rounded-xl bg-slate-950/80 border border-slate-700/80 text-white text-xs focus:outline-none focus:border-emerald-500"
+                    className="flex-1 px-3 py-2 rounded-xl bg-white dark:bg-slate-950/80 border border-slate-300 dark:border-slate-700/80 text-slate-900 dark:text-white text-xs focus:outline-none focus:border-emerald-500"
                   />
                   <button
                     type="button"
@@ -538,16 +538,16 @@ export default function RulesPage() {
                       addTag(mandatoryInput, mandatoryTerms, setMandatoryTerms);
                       setMandatoryInput('');
                     }}
-                    className="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-medium"
+                    className="px-3 py-2 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-white text-xs font-medium"
                   >
                     Add
                   </button>
                 </div>
                 <div className="flex flex-wrap gap-1.5">
                   {mandatoryTerms.map(term => (
-                    <span key={term} className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs">
+                    <span key={term} className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 text-xs">
                       +{term}
-                      <button onClick={() => removeTag(term, mandatoryTerms, setMandatoryTerms)} className="hover:text-emerald-100">×</button>
+                      <button onClick={() => removeTag(term, mandatoryTerms, setMandatoryTerms)} className="hover:text-emerald-900 dark:hover:text-emerald-100">×</button>
                     </span>
                   ))}
                   {mandatoryTerms.length === 0 && <span className="text-xs text-slate-500 italic">No required keywords</span>}
@@ -556,8 +556,8 @@ export default function RulesPage() {
 
               {/* Excluded Terms */}
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2 flex items-center gap-1.5">
-                  <AlertCircle className="w-3.5 h-3.5 text-rose-400" />
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2 flex items-center gap-1.5">
+                  <AlertCircle className="w-3.5 h-3.5 text-rose-500 dark:text-rose-400" />
                   <span>Excluded Terms (Disqualifies Article Automatically)</span>
                 </label>
                 <div className="flex gap-2 mb-2">
@@ -573,7 +573,7 @@ export default function RulesPage() {
                       }
                     }}
                     placeholder="Add exclusion (e.g. cricket, sports, gambling)..."
-                    className="flex-1 px-3 py-2 rounded-xl bg-slate-950/80 border border-slate-700/80 text-white text-xs focus:outline-none focus:border-rose-500"
+                    className="flex-1 px-3 py-2 rounded-xl bg-white dark:bg-slate-950/80 border border-slate-300 dark:border-slate-700/80 text-slate-900 dark:text-white text-xs focus:outline-none focus:border-rose-500"
                   />
                   <button
                     type="button"
@@ -581,16 +581,16 @@ export default function RulesPage() {
                       addTag(excludedInput, excludedTerms, setExcludedTerms);
                       setExcludedInput('');
                     }}
-                    className="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-medium"
+                    className="px-3 py-2 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-white text-xs font-medium"
                   >
                     Add
                   </button>
                 </div>
                 <div className="flex flex-wrap gap-1.5">
                   {excludedTerms.map(term => (
-                    <span key={term} className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs">
+                    <span key={term} className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-700 dark:text-rose-300 text-xs">
                       -{term}
-                      <button onClick={() => removeTag(term, excludedTerms, setExcludedTerms)} className="hover:text-rose-100">×</button>
+                      <button onClick={() => removeTag(term, excludedTerms, setExcludedTerms)} className="hover:text-rose-900 dark:hover:text-rose-100">×</button>
                     </span>
                   ))}
                   {excludedTerms.length === 0 && <span className="text-xs text-slate-500 italic">No exclusion filters</span>}
@@ -598,14 +598,14 @@ export default function RulesPage() {
               </div>
 
               {/* Action Buttons */}
-              <div className="pt-4 border-t border-slate-800 flex items-center justify-between gap-4">
+              <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-4">
                 <button
                   type="button"
                   onClick={handlePreview}
                   disabled={previewing}
-                  className="flex-1 px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-750 border border-slate-700 text-white font-medium text-xs flex items-center justify-center gap-2 transition-all"
+                  className="flex-1 px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-white font-medium text-xs flex items-center justify-center gap-2 transition-all"
                 >
-                  {previewing ? <RefreshCw className="w-4 h-4 animate-spin text-amber-400" /> : <Play className="w-4 h-4 text-amber-400 fill-amber-400/20" />}
+                  {previewing ? <RefreshCw className="w-4 h-4 animate-spin text-amber-500 dark:text-amber-400" /> : <Play className="w-4 h-4 text-amber-500 dark:text-amber-400 fill-amber-500/20" />}
                   <span>{previewing ? 'Simulating Corpus...' : 'Preview Rule (7-Day Simulator)'}</span>
                 </button>
 
@@ -625,43 +625,43 @@ export default function RulesPage() {
 
           {/* Column 2: 7-Day Preview Simulator Results (5 cols) */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="glass-card p-6 rounded-2xl border border-slate-800">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-4">
+            <div className="glass-card p-6 rounded-2xl border border-slate-200 dark:border-slate-800">
+              <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4 mb-4">
                 <div className="flex items-center gap-2">
-                  <Play className="w-5 h-5 text-amber-400" />
-                  <h3 className="text-base font-semibold text-white">Live Simulator Output</h3>
+                  <Play className="w-5 h-5 text-amber-500 dark:text-amber-400" />
+                  <h3 className="text-base font-semibold text-slate-900 dark:text-white">Live Simulator Output</h3>
                 </div>
-                <span className="text-[11px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 font-mono">
+                <span className="text-[11px] px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-400 font-mono">
                   {previewResult ? `${previewResult.matched_article_count} Matched` : 'Ready'}
                 </span>
               </div>
 
               {!previewResult ? (
                 <div className="text-center py-12 px-4 space-y-3">
-                  <div className="w-12 h-12 rounded-2xl bg-slate-800/80 border border-slate-700 flex items-center justify-center mx-auto text-slate-400">
+                  <div className="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 flex items-center justify-center mx-auto text-slate-500 dark:text-slate-400">
                     <Sliders className="w-6 h-6" />
                   </div>
-                  <h4 className="text-sm font-semibold text-slate-200">No Simulation Run Yet</h4>
-                  <p className="text-xs text-slate-400 max-w-xs mx-auto">
+                  <h4 className="text-sm font-semibold text-slate-800 dark:text-slate-200">No Simulation Run Yet</h4>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 max-w-xs mx-auto">
                     Click &ldquo;Preview Rule (7-Day Simulator)&rdquo; to test your structured criteria against the current ingested article corpus before committing.
                   </p>
                 </div>
               ) : (
                 <div className="space-y-4">
-                  <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800">
-                    <div className="text-xs text-slate-400 mb-1">Estimated Ingestion Volume</div>
+                  <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800">
+                    <div className="text-xs text-slate-500 dark:text-slate-400 mb-1">Estimated Ingestion Volume</div>
                     <div className="flex items-baseline gap-2">
-                      <span className="text-3xl font-black text-white">{previewResult.matched_article_count}</span>
-                      <span className="text-xs text-emerald-400 font-medium">articles meet all rule criteria</span>
+                      <span className="text-3xl font-black text-slate-900 dark:text-white">{previewResult.matched_article_count}</span>
+                      <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">articles meet all rule criteria</span>
                     </div>
                   </div>
 
                   <div>
-                    <div className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">
+                    <div className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-3">
                       Sample Matched Headlines:
                     </div>
                     {previewResult.sample_matches.length === 0 ? (
-                      <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 text-center text-xs text-slate-400">
+                      <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-center text-xs text-slate-500 dark:text-slate-400">
                         No articles in current test corpus matched these exact constraints.
                       </div>
                     ) : (
@@ -669,9 +669,9 @@ export default function RulesPage() {
                         {previewResult.sample_matches.map((headline, idx) => (
                           <div
                             key={idx}
-                            className="p-3 rounded-xl bg-slate-900/70 border border-slate-800 hover:border-slate-700 text-xs text-slate-200 flex items-start gap-2.5 transition-colors"
+                            className="p-3 rounded-xl bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 text-xs text-slate-800 dark:text-slate-200 flex items-start gap-2.5 transition-colors"
                           >
-                            <span className="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-[10px] font-bold flex-shrink-0 mt-0.5">
+                            <span className="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-[10px] font-bold flex-shrink-0 mt-0.5">
                               ✓
                             </span>
                             <span className="leading-snug">{headline}</span>
@@ -685,12 +685,12 @@ export default function RulesPage() {
             </div>
 
             {/* Rule Engine Explainability Tip */}
-            <div className="p-5 rounded-2xl bg-indigo-500/5 border border-indigo-500/20 space-y-2">
-              <div className="flex items-center gap-2 text-indigo-300 text-xs font-bold uppercase tracking-wider">
+            <div className="p-5 rounded-2xl bg-indigo-50 dark:bg-indigo-500/5 border border-indigo-200 dark:border-indigo-500/20 space-y-2">
+              <div className="flex items-center gap-2 text-indigo-600 dark:text-indigo-300 text-xs font-bold uppercase tracking-wider">
                 <ShieldCheck className="w-4 h-4" />
                 <span>Zero-Hallucination Pipeline Guard</span>
               </div>
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                 Rules are evaluated as strict boolean conjunctions before contextual validation. If an article violates an exclusion or tier barrier, it is disqualified immediately with an audit log reason code, saving downstream LLM compute.
               </p>
             </div>
@@ -698,19 +698,19 @@ export default function RulesPage() {
         </div>
 
         {/* Bottom Section: Active Rules Table */}
-        <div className="glass-card p-6 rounded-2xl border border-slate-800">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
+        <div className="glass-card p-6 rounded-2xl border border-slate-200 dark:border-slate-800">
+          <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4 mb-6">
             <div className="flex items-center gap-3">
-              <Layers className="w-5 h-5 text-indigo-400" />
+              <Layers className="w-5 h-5 text-indigo-500 dark:text-indigo-400" />
               <div>
-                <h3 className="text-base font-bold text-white">Active Client Rules</h3>
-                <p className="text-xs text-slate-400">Rules applied in production to discovery and alerts for this client</p>
+                <h3 className="text-base font-bold text-slate-900 dark:text-white">Active Client Rules</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400">Rules applied in production to discovery and alerts for this client</p>
               </div>
             </div>
             <button
               onClick={() => selectedClientId && loadClientRules(selectedClientId)}
               disabled={loadingRules}
-              className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors"
+              className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-colors"
               title="Refresh Rules"
             >
               <RefreshCw className={`w-4 h-4 ${loadingRules ? 'animate-spin' : ''}`} />
@@ -718,7 +718,7 @@ export default function RulesPage() {
           </div>
 
           {activeRules.length === 0 ? (
-            <div className="text-center py-10 text-slate-400 text-xs">
+            <div className="text-center py-10 text-slate-500 dark:text-slate-400 text-xs">
               No active rules configured for this client yet. Create one above to tailor feed filtering!
             </div>
           ) : (
@@ -726,18 +726,18 @@ export default function RulesPage() {
               {activeRules.map(rule => (
                 <div
                   key={rule.id}
-                  className="p-4 rounded-xl bg-slate-950/60 border border-slate-800 hover:border-slate-700 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all"
+                  className="p-4 rounded-xl bg-white dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all shadow-sm"
                 >
                   <div className="space-y-1.5 flex-1">
                     <div className="flex items-center gap-2.5">
-                      <span className="text-sm font-semibold text-white">{rule.name}</span>
-                      <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">
+                      <span className="text-sm font-semibold text-slate-900 dark:text-white">{rule.name}</span>
+                      <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-indigo-500/10 text-indigo-600 dark:text-indigo-300 border border-indigo-500/20">
                         {rule.recency_hours ? `Last ${rule.recency_hours}h` : 'No recency limit'}
                       </span>
                     </div>
 
                     {rule.natural_language_text && (
-                      <p className="text-xs text-slate-400 italic">
+                      <p className="text-xs text-slate-600 dark:text-slate-400 italic">
                         &ldquo;{rule.natural_language_text}&rdquo;
                       </p>
                     )}
@@ -747,7 +747,7 @@ export default function RulesPage() {
                       <div className="flex items-center gap-1">
                         <span className="text-slate-500 font-semibold">Tiers:</span>
                         {rule.domain_tiers.map(t => (
-                          <span key={t} className="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 uppercase font-mono text-[10px]">
+                          <span key={t} className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 uppercase font-mono text-[10px]">
                             {t}
                           </span>
                         ))}
@@ -757,7 +757,7 @@ export default function RulesPage() {
                       {rule.geography.length > 0 && (
                         <div className="flex items-center gap-1">
                           <span className="text-slate-500 font-semibold">Geo:</span>
-                          <span className="text-cyan-400">{rule.geography.join(', ')}</span>
+                          <span className="text-cyan-600 dark:text-cyan-400">{rule.geography.join(', ')}</span>
                         </div>
                       )}
 
@@ -765,7 +765,7 @@ export default function RulesPage() {
                       {rule.excluded_terms.length > 0 && (
                         <div className="flex items-center gap-1">
                           <span className="text-slate-500 font-semibold">Excluded:</span>
-                          <span className="text-rose-400">{rule.excluded_terms.join(', ')}</span>
+                          <span className="text-rose-600 dark:text-rose-400">{rule.excluded_terms.join(', ')}</span>
                         </div>
                       )}
                     </div>
@@ -777,7 +777,7 @@ export default function RulesPage() {
                     </span>
                     <button
                       onClick={() => handleDeleteRule(rule.id)}
-                      className="p-2 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 transition-colors"
+                      className="p-2 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 dark:text-rose-400 transition-colors"
                       title="Delete Rule"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -791,3 +791,4 @@ export default function RulesPage() {
       </div>
   );
 }
+

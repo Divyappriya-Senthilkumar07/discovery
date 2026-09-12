@@ -12,7 +12,7 @@ OutputType = TypeVar("OutputType", bound=BaseModel)
 
 class BaseAgent(ABC, Generic[InputType, OutputType]):
     """
-    Base contract for all 8 agents in Context Engine.
+    Base contract for all 8 agents in Discover.
     Enforces process(input_data) -> output_data with standard error handling,
     latency tracking, and audit log persistence.
     """

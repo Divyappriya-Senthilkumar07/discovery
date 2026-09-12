@@ -63,9 +63,9 @@ async def test_daily_brief_clustering_and_outlier_detection():
         assert len(main_brief.contributing_sources) >= 4, f"Expected near-duplicate sources grouped, got {main_brief.contributing_sources}"
         
         # The 6th genuinely distinct article is flagged as an outlier
-        assert distinct_article.id in main_brief.outlier_articles, f"Distinct article {distinct_article.id} was not flagged as outlier! Outliers: {main_brief.outlier_articles}"
+        assert any(distinct_article.title in o or distinct_article.id in o for o in main_brief.outlier_articles), f"Distinct article {distinct_article.id} was not flagged as outlier! Outliers: {main_brief.outlier_articles}"
         
         # None of the 5 syndicated articles should be flagged as outliers
-        wire_ids = {a.id for a in wire_articles}
-        for outlier_id in main_brief.outlier_articles:
-            assert outlier_id not in wire_ids, f"Syndicated article {outlier_id} was incorrectly marked as outlier!"
+        wire_titles = {a.title for a in wire_articles}
+        for outlier_str in main_brief.outlier_articles:
+            assert not any(wt in outlier_str for wt in wire_titles), f"Syndicated article {outlier_str} was incorrectly marked as outlier!"

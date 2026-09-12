@@ -141,12 +141,12 @@ export default function DiscoveryFeedPage() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-bold text-white tracking-tight">Discovery Feed</h1>
-            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+            <h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">Discovery Feed</h1>
+            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">
               Live Semantic Pipeline
             </span>
           </div>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
             Contextual media monitoring with semantic pre-filtering, LLM disambiguation, and explainable audit reasoning.
           </p>
         </div>
@@ -154,7 +154,7 @@ export default function DiscoveryFeedPage() {
         <div className="flex items-center gap-3">
           <button
             onClick={() => loadArticles()}
-            className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs font-medium text-slate-300 hover:text-white hover:border-slate-700 transition"
+            className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:border-slate-300 dark:hover:border-slate-700 shadow-sm transition"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
             Refresh
@@ -173,26 +173,26 @@ export default function DiscoveryFeedPage() {
       </div>
 
       {/* Filter Toolbar */}
-      <div className="glass-panel p-4 rounded-2xl border border-slate-800/80 flex flex-wrap items-center gap-4">
+      <div className="glass-panel p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 flex flex-wrap items-center gap-4">
         {/* Search */}
         <div className="flex-1 min-w-[240px] relative">
-          <Search className="w-4 h-4 text-slate-500 absolute left-3 top-2.5" />
+          <Search className="w-4 h-4 text-slate-400 dark:text-slate-500 absolute left-3 top-2.5" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search articles by title, domain, or body excerpt..."
-            className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-slate-900/80 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+            className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-indigo-500 shadow-sm"
           />
         </div>
 
         {/* Client Selector */}
         <div className="flex items-center gap-2">
-          <Building2 className="w-3.5 h-3.5 text-slate-400" />
+          <Building2 className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
           <select
             value={selectedClientId}
             onChange={(e) => setSelectedClientId(e.target.value)}
-            className="px-3 py-2 text-xs rounded-xl bg-slate-900/80 border border-slate-800 text-white focus:outline-none focus:border-indigo-500"
+            className="px-3 py-2 text-xs rounded-xl bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500 shadow-sm"
           >
             <option value="">All Clients</option>
             {clients.map((c) => (
@@ -204,7 +204,7 @@ export default function DiscoveryFeedPage() {
         </div>
 
         {/* Status Filter */}
-        <div className="flex items-center bg-slate-900/80 p-1 rounded-xl border border-slate-800 text-xs">
+        <div className="flex items-center bg-slate-100 dark:bg-slate-900/80 p-1 rounded-xl border border-slate-200 dark:border-slate-800 text-xs">
           {['all', 'relevant', 'needs_review', 'not_relevant'].map((st) => (
             <button
               key={st}
@@ -212,7 +212,7 @@ export default function DiscoveryFeedPage() {
               className={`px-3 py-1 rounded-lg capitalize text-[11px] font-medium transition ${
                 statusFilter === st
                   ? 'bg-indigo-600 text-white shadow'
-                  : 'text-slate-400 hover:text-white'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               {st.replace('_', ' ')}
@@ -225,13 +225,13 @@ export default function DiscoveryFeedPage() {
       {loading ? (
         <div className="flex flex-col items-center justify-center p-12 text-center">
           <div className="w-8 h-8 border-3 border-indigo-500 border-t-transparent rounded-full animate-spin mb-3" />
-          <p className="text-xs text-slate-400">Loading contextual news corpus...</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">Loading contextual news corpus...</p>
         </div>
       ) : filteredArticles.length === 0 ? (
-        <div className="glass-panel rounded-2xl p-12 text-center border border-slate-800">
-          <Rss className="w-10 h-10 text-slate-600 mx-auto mb-3" />
-          <h3 className="text-sm font-semibold text-white">No Articles Ingested Yet</h3>
-          <p className="text-xs text-slate-400 max-w-sm mx-auto mt-1">
+        <div className="glass-panel rounded-2xl p-12 text-center border border-slate-200 dark:border-slate-800">
+          <Rss className="w-10 h-10 text-slate-400 dark:text-slate-600 mx-auto mb-3" />
+          <h3 className="text-sm font-semibold text-slate-900 dark:text-white">No Articles Ingested Yet</h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto mt-1">
             Submit a news URL via the Ingest button above or trigger background feed discovery.
           </p>
         </div>
@@ -244,43 +244,43 @@ export default function DiscoveryFeedPage() {
             return (
               <div
                 key={article.id}
-                className="glass-card rounded-2xl p-5 border border-slate-800/80 hover:border-indigo-500/40 transition-all flex flex-col md:flex-row gap-5"
+                className="glass-card rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800/80 hover:border-indigo-500/40 transition-all flex flex-col md:flex-row gap-5"
               >
                 <div className="flex-1">
                   <div className="flex flex-wrap items-center gap-2 mb-2">
-                    <span className="px-2.5 py-0.5 rounded-md text-[10px] font-semibold bg-slate-800 text-slate-300">
+                    <span className="px-2.5 py-0.5 rounded-md text-[10px] font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
                       {article.domain}
                     </span>
-                    <span className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-indigo-950/40 text-indigo-400 border border-indigo-500/20 uppercase tracking-wider">
+                    <span className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/20 uppercase tracking-wider">
                       {article.extraction_method}
                     </span>
                     {article.published_at && (
-                      <span className="text-[11px] text-slate-500 flex items-center gap-1">
+                      <span className="text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-1">
                         <Clock className="w-3 h-3" />
                         {new Date(article.published_at).toLocaleDateString()}
                       </span>
                     )}
                   </div>
 
-                  <h3 className="text-base font-bold text-white hover:text-indigo-300 transition">
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-300 transition">
                     <a href={article.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5">
                       {article.title}
-                      <ExternalLink className="w-3.5 h-3.5 text-slate-500" />
+                      <ExternalLink className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
                     </a>
                   </h3>
 
-                  <p className="text-xs text-slate-400 line-clamp-2 mt-2 leading-relaxed">
+                  <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 mt-2 leading-relaxed">
                     {article.body_text}
                   </p>
 
                   {/* Explainability Callout */}
-                  <div className="mt-3 p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 flex items-start gap-2">
-                    <Sparkles className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" />
+                  <div className="mt-3 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 flex items-start gap-2">
+                    <Sparkles className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />
                     <div>
-                      <span className="text-[10px] font-semibold uppercase tracking-wider text-indigo-400 block">
+                      <span className="text-[10px] font-semibold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 block">
                         Contextual Disambiguation Reasoning
                       </span>
-                      <p className="text-xs text-slate-300 mt-0.5">
+                      <p className="text-xs text-slate-700 dark:text-slate-300 mt-0.5">
                         {article.explanation || 'Semantic vector pre-filter validated client industry alignment; high relevance.'}
                       </p>
                     </div>
@@ -288,23 +288,23 @@ export default function DiscoveryFeedPage() {
                 </div>
 
                 {/* Score & Verdict Panel */}
-                <div className="flex md:flex-col justify-between items-end md:justify-center border-t md:border-t-0 md:border-l border-slate-800/80 pt-3 md:pt-0 md:pl-5 min-w-[170px]">
+                <div className="flex md:flex-col justify-between items-end md:justify-center border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-800/80 pt-3 md:pt-0 md:pl-5 min-w-[170px]">
                   <div>
-                    <div className="text-[10px] text-slate-400 uppercase font-semibold tracking-wider mb-1">
+                    <div className="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-semibold tracking-wider mb-1">
                       Context Verdict
                     </div>
                     {verdict === 'relevant' ? (
-                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                         <CheckCircle2 className="w-3.5 h-3.5" />
                         Relevant
                       </div>
                     ) : verdict === 'needs_review' ? (
-                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
                         <AlertTriangle className="w-3.5 h-3.5" />
                         Needs Review
                       </div>
                     ) : (
-                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/20">
+                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
                         <XCircle className="w-3.5 h-3.5" />
                         Rejected
                       </div>
@@ -312,10 +312,10 @@ export default function DiscoveryFeedPage() {
                   </div>
 
                   <div className="mt-3 text-right md:text-left">
-                    <div className="text-[10px] text-slate-400 uppercase font-semibold tracking-wider">
+                    <div className="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-semibold tracking-wider">
                       Confidence
                     </div>
-                    <div className="text-sm font-bold text-white mt-0.5">
+                    <div className="text-sm font-bold text-slate-900 dark:text-white mt-0.5">
                       {Math.round(confidence * 100)}%
                     </div>
                   </div>
@@ -328,19 +328,19 @@ export default function DiscoveryFeedPage() {
 
       {/* Ingestion & Pipeline Run Modal */}
       {showIngestModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className="w-full max-w-xl glass-panel rounded-2xl p-6 border border-slate-700/80 shadow-2xl">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 dark:bg-black/70 backdrop-blur-sm">
+          <div className="w-full max-w-xl glass-panel rounded-2xl p-6 border border-slate-200 dark:border-slate-700/80 shadow-2xl">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800">
               <div className="flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-indigo-400" />
-                <h3 className="text-base font-bold text-white">Ingest & Run Full Pipeline</h3>
+                <Sparkles className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+                <h3 className="text-base font-bold text-slate-900 dark:text-white">Ingest & Run Full Pipeline</h3>
               </div>
               <button
                 onClick={() => {
                   setShowIngestModal(false);
                   setIngestResult(null);
                 }}
-                className="text-slate-400 hover:text-white text-sm"
+                className="text-slate-400 hover:text-slate-700 dark:hover:text-white text-sm"
               >
                 ✕
               </button>
@@ -348,12 +348,12 @@ export default function DiscoveryFeedPage() {
 
             <form onSubmit={handleRunPipeline} className="space-y-4 mt-4">
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">Target Client</label>
+                <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Target Client</label>
                 <select
                   required
                   value={ingestClientId}
                   onChange={(e) => setIngestClientId(e.target.value)}
-                  className="w-full px-3 py-2 text-xs rounded-xl bg-slate-900 border border-slate-800 text-white focus:outline-none focus:border-indigo-500"
+                  className="w-full px-3 py-2 text-xs rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500 shadow-sm"
                 >
                   {clients.map((c) => (
                     <option key={c.id} value={c.id}>
@@ -364,14 +364,14 @@ export default function DiscoveryFeedPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">Article or News URL</label>
+                <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Article or News URL</label>
                 <input
                   type="url"
                   required
                   value={ingestUrl}
                   onChange={(e) => setIngestUrl(e.target.value)}
                   placeholder="https://reuters.com/business/fintech/payu-expands-merchant-credit"
-                  className="w-full px-3 py-2 text-xs rounded-xl bg-slate-900 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+                  className="w-full px-3 py-2 text-xs rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-indigo-500 shadow-sm"
                 />
               </div>
 
@@ -379,7 +379,7 @@ export default function DiscoveryFeedPage() {
                 <button
                   type="button"
                   onClick={() => setShowIngestModal(false)}
-                  className="px-4 py-2 text-xs text-slate-400 hover:text-white"
+                  className="px-4 py-2 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                 >
                   Cancel
                 </button>
@@ -402,38 +402,38 @@ export default function DiscoveryFeedPage() {
 
             {/* Pipeline Stage Results */}
             {ingestResult && (
-              <div className="mt-5 p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-3">
+              <div className="mt-5 p-4 rounded-xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+                  <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
                     <CheckCircle2 className="w-4 h-4" />
                     Pipeline Completed Successfully ({ingestResult.total_latency_ms}ms)
                   </span>
-                  <span className="text-[11px] text-slate-400 capitalize font-medium">
-                    Verdict: <strong className="text-white">{ingestResult.verdict}</strong>
+                  <span className="text-[11px] text-slate-600 dark:text-slate-400 capitalize font-medium">
+                    Verdict: <strong className="text-slate-900 dark:text-white">{ingestResult.verdict}</strong>
                   </span>
                 </div>
 
-                <div className="text-xs text-slate-300 bg-slate-950/60 p-2.5 rounded-lg border border-slate-800/80">
-                  <span className="text-[10px] text-indigo-400 uppercase font-semibold block mb-0.5">Explanation</span>
+                <div className="text-xs text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-950/60 p-2.5 rounded-lg border border-slate-200 dark:border-slate-800/80">
+                  <span className="text-[10px] text-indigo-600 dark:text-indigo-400 uppercase font-semibold block mb-0.5">Explanation</span>
                   {ingestResult.explanation}
                 </div>
 
                 <div className="grid grid-cols-4 gap-2 pt-1 text-center">
-                  <div className="p-2 rounded-lg bg-slate-950/40 border border-slate-800">
+                  <div className="p-2 rounded-lg bg-white dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800">
                     <span className="text-[9px] text-slate-500 block">Extract</span>
-                    <span className="text-[11px] text-slate-300 font-medium">{ingestResult.stage_latencies?.extraction_ms}ms</span>
+                    <span className="text-[11px] text-slate-700 dark:text-slate-300 font-medium">{ingestResult.stage_latencies?.extraction_ms}ms</span>
                   </div>
-                  <div className="p-2 rounded-lg bg-slate-950/40 border border-slate-800">
+                  <div className="p-2 rounded-lg bg-white dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800">
                     <span className="text-[9px] text-slate-500 block">Vector Sim</span>
-                    <span className="text-[11px] text-slate-300 font-medium">{ingestResult.semantic_similarity}</span>
+                    <span className="text-[11px] text-slate-700 dark:text-slate-300 font-medium">{ingestResult.semantic_similarity}</span>
                   </div>
-                  <div className="p-2 rounded-lg bg-slate-950/40 border border-slate-800">
+                  <div className="p-2 rounded-lg bg-white dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800">
                     <span className="text-[9px] text-slate-500 block">Confidence</span>
-                    <span className="text-[11px] text-slate-300 font-medium">{Math.round(ingestResult.confidence * 100)}%</span>
+                    <span className="text-[11px] text-slate-700 dark:text-slate-300 font-medium">{Math.round(ingestResult.confidence * 100)}%</span>
                   </div>
-                  <div className="p-2 rounded-lg bg-slate-950/40 border border-slate-800">
+                  <div className="p-2 rounded-lg bg-white dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800">
                     <span className="text-[9px] text-slate-500 block">Rules</span>
-                    <span className="text-[11px] text-emerald-400 font-medium">{ingestResult.passed_rules ? 'Passed' : 'Blocked'}</span>
+                    <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">{ingestResult.passed_rules ? 'Passed' : 'Blocked'}</span>
                   </div>
                 </div>
               </div>
